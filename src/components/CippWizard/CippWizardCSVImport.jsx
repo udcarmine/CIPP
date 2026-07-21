@@ -31,7 +31,9 @@ export const CippWizardCSVImport = (props) => {
 
   const handleRemoveItem = (row) => {
     if (row === undefined) return false;
-    const index = tableData?.findIndex((item) => item === row);
+    const rowKey = JSON.stringify(row);
+    const index = tableData?.findIndex((item) => JSON.stringify(item) === rowKey);
+    if (index === -1) return false;
     const newTableData = [...tableData];
     newTableData.splice(index, 1);
     setTableData(newTableData);
@@ -79,7 +81,7 @@ export const CippWizardCSVImport = (props) => {
         <Grid container spacing={2}>
           {fields.map((field) => (
             <>
-              <Grid item size={{ md: 4, sm: 6, xs: 12 }} key={field}>
+              <Grid size={{ md: 4, sm: 6, xs: 12 }} key={field}>
                 <CippFormComponent
                   name={`addrow.${field}`}
                   label={getCippTranslation(field)}
@@ -98,7 +100,7 @@ export const CippWizardCSVImport = (props) => {
               </Grid>
             </>
           ))}
-          <Grid item size={{ md: 4, sm: 6, xs: 12 }}>
+          <Grid size={{ md: 4, sm: 6, xs: 12 }}>
             <Button size="small" onClick={() => handleAddItem()}>
               Add Item
             </Button>
@@ -108,7 +110,7 @@ export const CippWizardCSVImport = (props) => {
       {!manualFields && (
         <>
           <Grid container spacing={2}>
-            <Grid item size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }}>
               <Button size="small" onClick={() => setOpen(true)}>
                 Add Item
               </Button>
@@ -119,7 +121,7 @@ export const CippWizardCSVImport = (props) => {
             <DialogContent>
               <Grid container spacing={2} sx={{ py: 1 }}>
                 {fields.map((field) => (
-                  <Grid item size={{ xs: 12 }} key={field}>
+                  <Grid size={{ xs: 12 }} key={field}>
                     <CippFormComponent
                       name={`addrow.${field}`}
                       label={getCippTranslation(field)}
